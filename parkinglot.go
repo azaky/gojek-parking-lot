@@ -55,6 +55,9 @@ func (p *ParkingLot) Park(car *Car) (int, error) {
 }
 
 func (p *ParkingLot) assignCarToSlot(car *Car, slot int) (int, error) {
+	if !p.initialized {
+		return -1, ErrNotInitialized
+	}
 	if slot <= 0 || slot > len(p.slots) {
 		return -1, ErrSlotDoesNotExist
 	}
@@ -66,6 +69,9 @@ func (p *ParkingLot) assignCarToSlot(car *Car, slot int) (int, error) {
 }
 
 func (p *ParkingLot) Leave(slot int) (*Car, error) {
+	if !p.initialized {
+		return nil, ErrNotInitialized
+	}
 	if slot <= 0 || slot > len(p.slots) {
 		return nil, ErrSlotDoesNotExist
 	}
@@ -78,6 +84,9 @@ func (p *ParkingLot) Leave(slot int) (*Car, error) {
 }
 
 func (p *ParkingLot) RegistrationNumbersForColour(colour string) []string {
+	if !p.initialized {
+		return nil
+	}
 	res := make([]string, 0)
 	for _, car := range p.slots {
 		if car != nil && car.Colour == colour {
@@ -88,6 +97,9 @@ func (p *ParkingLot) RegistrationNumbersForColour(colour string) []string {
 }
 
 func (p *ParkingLot) SlotNumbersForColour(colour string) []int {
+	if !p.initialized {
+		return nil
+	}
 	res := make([]int, 0)
 	for i, car := range p.slots {
 		if car != nil && car.Colour == colour {
@@ -98,6 +110,9 @@ func (p *ParkingLot) SlotNumbersForColour(colour string) []int {
 }
 
 func (p *ParkingLot) SlotNumberForRegistrationNumber(reg string) (int, error) {
+	if !p.initialized {
+		return -1, ErrNotInitialized
+	}
 	for i, car := range p.slots {
 		if car != nil && car.RegistrationNumber == reg {
 			return i + 1, nil
@@ -107,6 +122,10 @@ func (p *ParkingLot) SlotNumberForRegistrationNumber(reg string) (int, error) {
 }
 
 func (p *ParkingLot) Status() string {
+	if !p.initialized {
+		return ErrNotInitialized.Error()
+	}
+
 	entries := make([][]string, 0)
 	indents := make([]int, 3)
 
