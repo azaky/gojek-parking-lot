@@ -165,7 +165,7 @@ func (r *REPL) handleRegistrationNumbersForColour(args []string) {
 
 func (r *REPL) handleSlotNumbersForColour(args []string) {
 	if len(args) != 1 {
-		r.write("Invalid number of args for registration_numbers_for_cars_with_colour <colour>")
+		r.write("Invalid number of args for slot_numbers_for_cars_with_colour <colour>")
 		return
 	}
 	slots := r.lot.SlotNumbersForColour(args[0])
