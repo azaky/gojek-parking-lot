@@ -13,7 +13,6 @@ func main() {
 	if len(args) == 0 {
 		repl.Run(os.Stdin, os.Stdout)
 	} else {
-		fmt.Println(args[0])
 		f, err := os.Open(args[0])
 		if err != nil {
 			fmt.Printf("Error reading file %s: %v\n", args[0], err)
