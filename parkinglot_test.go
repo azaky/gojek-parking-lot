@@ -23,11 +23,14 @@ func TestPark(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 2, num)
 
+	_, err = lot.Park(&Car{"A", "Azure"})
+	require.Equal(t, ErrRegistrationNumberAlreadyExists, err)
+
 	num, err = lot.Park(&Car{"C", "Cyan"})
 	require.NoError(t, err)
 	require.Equal(t, 3, num)
 
-	_, err = lot.Park(&Car{"C", "Cyan"})
+	_, err = lot.Park(&Car{"D", "Danube"})
 	require.Equal(t, err, ErrFull)
 }
 

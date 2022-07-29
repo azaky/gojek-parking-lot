@@ -116,6 +116,8 @@ func (r *REPL) handlePark(args []string) {
 	if err != nil {
 		if errors.Is(err, ErrFull) {
 			r.write("Sorry, parking lot is full")
+		} else if errors.Is(err, ErrRegistrationNumberAlreadyExists) {
+			r.write("Car with registration number %s is already in the parking lot", car.RegistrationNumber)
 		} else {
 			r.write("Error parking the car: %s", err.Error())
 		}

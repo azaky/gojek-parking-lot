@@ -7,13 +7,14 @@ import (
 )
 
 var (
-	ErrAlreadyInitialized         = errors.New("parking lot is already initialized")
-	ErrNotInitialized             = errors.New("parking lot has not been initialized")
-	ErrFull                       = errors.New("parking lot is full")
-	ErrSlotIsEmpty                = errors.New("slot is empty")
-	ErrSlotIsNotEmpty             = errors.New("slot is not empty")
-	ErrSlotDoesNotExist           = errors.New("slot does not exist")
-	ErrRegistrationNumberNotFound = errors.New("registration number not found")
+	ErrAlreadyInitialized              = errors.New("parking lot is already initialized")
+	ErrNotInitialized                  = errors.New("parking lot has not been initialized")
+	ErrFull                            = errors.New("parking lot is full")
+	ErrSlotIsEmpty                     = errors.New("slot is empty")
+	ErrSlotIsNotEmpty                  = errors.New("slot is not empty")
+	ErrSlotDoesNotExist                = errors.New("slot does not exist")
+	ErrRegistrationNumberNotFound      = errors.New("registration number not found")
+	ErrRegistrationNumberAlreadyExists = errors.New("car with the registration number already exists")
 )
 
 type Car struct {
@@ -45,6 +46,9 @@ func (p *ParkingLot) Init(n int) error {
 func (p *ParkingLot) Park(car *Car) (int, error) {
 	if !p.initialized {
 		return -1, ErrNotInitialized
+	}
+	if _, err := p.SlotNumberForRegistrationNumber(car.RegistrationNumber); err == nil {
+		return -1, ErrRegistrationNumberAlreadyExists
 	}
 	for i := range p.slots {
 		if p.slots[i] == nil {
